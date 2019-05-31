@@ -1,5 +1,10 @@
+$User = "abhishek.it@hotmail.com"
+$PWord = ConvertTo-SecureString -String "davincicode@123" -AsPlainText -Force
+$Tenant = "2ff36f57-a239-47e1-aec5-10c39a0f0a67"
+$subscription = "f37e7166-4d33-4cf7-9bb9-f8fc98172fe4"
+$Credential = New-Object -TypeName "System.Management.Automation.PSCredential" -ArgumentList $User,$PWord
+Connect-AzAccount -Credential $Credential -Tenant $tenant -Subscription $subscription
 
-Connect-AzAccount  
 
 #Delete Resource Group If exists
 
