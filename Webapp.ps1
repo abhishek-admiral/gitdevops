@@ -12,7 +12,8 @@ Remove-AzResourceGroup -Name JenkinsTesting -Force
 
 # Replace the following URL with a public GitHub repo URL
 $gitrepo="https://github.com/abhishek-admiral/gitdevops.git"
-$webappname="mygitapp"
+$gittoken="f90a1e3fe4a09140dd4da640bc30af049275bc47"
+$webappname="mywebapp$(Get-Random)"
 $location="West Europe"
 
 # Create a resource group.
@@ -25,7 +26,21 @@ New-AzAppServicePlan -Name $webappname -Location $location `
 # Create a web app.
 New-AzWebApp -Name $webappname -Location $location `
 -AppServicePlan $webappname -ResourceGroupName JenkinsTesting
+# SET GitHub
+$PropertiesObject = @{
+    token = $gittoken;
+}
 
+Set-AzResource -PropertyObject $PropertiesObject `
+-ResourceId /providers/Microsoft.Web/sourcecontrols/GitHub -ApiVersion 2015-08-01 -Force
+
+# Configure GitHub deployment from your GitHub repo and deploy once.
+$PropertiesObject = @{
+    repoUrl = "$gitrepo";
+    branch = "master";
+}
+Set-AzResource -PropertyObject $PropertiesObject -ResourceGroupName JenkinsTesting -ResourceType Microsoft.Web/sites/sourcecontrols 
+-ResourceName $webappname/web -ApiVersion 2015-08-01 -Force
 # Upgrade App Service plan to Standard tier (minimum required by deployment slots)
 #Set-AzAppServicePlan -Name $webappname -ResourceGroupName JenkinsTesting `-Tier Standard
 
