@@ -1,8 +1,5 @@
-$azureAplicationId ="abhishek.it@hotmail.com"
-$azureTenantId= "2ff36f57-a239-47e1-aec5-10c39a0f0a67"
-$azurePassword = ConvertTo-SecureString "davincicode@123" -AsPlainText -Force
-$psCred = New-Object System.Management.Automation.PSCredential($azureAplicationId , $azurePassword)
-Connect-AzAccount -Credential $psCred -TenantId $azureTenantId  -ServicePrincipal 
+
+Connect-AzAccount  
 
 #Delete Resource Group If exists
 
